@@ -15,7 +15,18 @@ body {
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
-.input-box {
+.stats {
+  display: flex;
+  flex-direction: row;
+  /* width: inherit; */
+}
+
+.stats-item:not(:last-child) {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+/* .input-box {
   display: block;
   margin-bottom: 30px;
 }
@@ -32,8 +43,4 @@ body {
 
 .country-info {
   margin-right: 30px;
-}
-
-.flag-img-right {
-  margin-top: auto;
-}
+} */

@@ -1,6 +1,7 @@
 export default function getRefs() {
    return {
-    cardContainer: document.querySelector('.js-card-container'),
-    searchInput: document.querySelector('input#inputName')   
+    cardContainer: document.querySelector('.gallery'),
+      searchForm: document.querySelector('#search-form'),
+      loadMoreBtn: document.querySelector('[data-action="load-more"]')
    };
 }

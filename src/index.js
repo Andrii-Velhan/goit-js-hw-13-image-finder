@@ -1,7 +1,7 @@
 import './styles.css';
 import countryCardTpl from './templates/country-card.hbs'
 import countryListTpl from './templates/list-card.hbs'
-import API from './js/fetchCountries';
+import API from './js/apiService';
 import getRefs from './js/get-refs';
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
@@ -25,7 +25,7 @@ function onSearch (e) {
     
     console.log(searchQuery);
 
-    API.fetchCountries(searchQuery)
+    API.fetchApiPictures(searchQuery)
         .then(renderCountryCard)
         .catch(onFetchError)        
 }

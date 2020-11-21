@@ -1,7 +1,7 @@
 import './styles.css';
 import countryCardTpl from './templates/image-card.hbs'
 import countryListTpl from './templates/image-card.hbs'
-// import API from './js/apiService';
+import ImageApiService from './js/apiService';
 import getRefs from './js/get-refs';
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
@@ -10,42 +10,27 @@ import * as PNotifyMobile from '@pnotify/mobile';
 
 const debounce = require('lodash.debounce');
 const refs = getRefs();
-let searchQuery = '';
-
-const BASE_URL = `https://pixabay.com/api/`;
-const MY_KEY = `19199733-53a137615acbd00e25277177c`;
-   
-
-function fetchApiPictures(searchQuery) {
-    let page = 1;
-    const per_page = 5;
-    
-    return fetch(`${BASE_URL}?image_type=photo
-    &orientation=horizontal
-    &q=${searchQuery}
-    &page=${page}
-    &per_page=${per_page}
-    &key=${MY_KEY}`)
-        .then(r => r.json()); 
-}
 
 refs.searchForm.addEventListener('input', debounce(onSearch, 500));
 refs.loadMoreBtn.addEventListener('click', onLoadMore)
+const imageApiService = new ImageApiService();
 
 function onSearch (e) {
     e.preventDefault();
 
-    const input = e.target;
-    searchQuery = input.value;
-    if (searchQuery.length === 0) {
+    //imageApiService.query = e.currentTarget.elements.query.value;
+    imageApiService.query = e.target.value;
+    imageApiService.resetPage();
+    imageApiService.fetchArticles().then(articles => console.log(articles));
+   
+    if (imageApiService.query.length === 0) {
         clearResult();
         return
     }
     
-    console.log(searchQuery);
+    console.log(imageApiService.query);
 
-    // API.fetchApiPictures(searchQuery)
-    fetchApiPictures(searchQuery)
+    imageApiService.fetchArticles()
         .then(renderCountryCard)
         .catch(onFetchError)        
 }
@@ -62,16 +47,7 @@ function renderCountryCard(country) {
             delay: 2500           
         });        
     }
-    // if (country.length > 10) {
-    //     clearResult();
-    //     console.log(`country.length: ${country.length}`);
-    //     return error({
-    //         text: `Many countries found, please make your request more specific !!!`,
-    //         type: 'info',
-    //         delay: 2500           
-    //     });
-        
-    // }
+   
     if (country.length >=2 && country.length <= 10) {
         console.log(`country.length: ${country.length}`);
         return refs.cardContainer.insertAdjacentHTML('beforeend', listMarkUp);
@@ -90,7 +66,7 @@ function clearResult() {
 }
 
 function onLoadMore() {
-    
+  imageApiService.fetchArticles().then(articles => console.log(articles));   
 }
 
 

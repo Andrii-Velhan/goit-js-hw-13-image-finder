@@ -33,18 +33,18 @@ function onSearch(e) {
     // .then(e => renderArticlesCard(e.hits))
 }
 
-function renderArticlesCard(hits) {
-    const markUp = articlesCardTpl(hits);      
-    if (hits.status === 404 && hits.length === 0) {
-        clearResult();
-        return error({
-            text: 'The articles for your request was not found. Please try again',
-            type: 'info',
-            delay: 2500           
-        });        
-    }     
+function renderArticlesCard(articles) {
+    const markUp = articlesCardTpl(articles);      
+    // if (articles.status === 404 && articles.length === 0) {
+    //     clearResult();
+    //     return error({
+    //         text: 'The articles for your request was not found. Please try again',
+    //         type: 'info',
+    //         delay: 2500           
+    //     });        
+    // }     
     refs.cardContainer.insertAdjacentHTML('beforeend', markUp);
-    console.log('renderArticlesCard is work');
+    console.log('renderArticlesCard is working');
 }
 
 function onFetchError(error) {

@@ -28,24 +28,37 @@ function onSearch(e) {
         clearResult();
         return
     }
+
+    if (imageApiService.query === ' ' ||
+        imageApiService.query === '  ' ||
+        imageApiService.query === '   ') {        
+               return error({
+            text: 'Input something real ! ! !',
+            type: 'info',
+            delay: 2500           
+        }); 
+    }
+
+     if (imageApiService.query.status === 404) {
+        clearResult();
+        console.log('not find');
+        return error({
+            text: 'The articles for your request was not found. Please try again',
+            type: 'info',
+            delay: 2500           
+        });        
+    } 
     
     imageApiService.fetchArticles().then(renderArticlesCard)
         .catch(onFetchError);
     // .then(e => renderArticlesCard(e.hits))
 }
 
-function renderArticlesCard({hits}) {
-    const markUp = articlesCardTpl({hits});      
-    // if (articles.status === 404 && articles.length === 0) {
-    //     clearResult();
-    //     return error({
-    //         text: 'The articles for your request was not found. Please try again',
-    //         type: 'info',
-    //         delay: 2500           
-    //     });        
-    // }   
+function renderArticlesCard(hits) {
+    const markUp = articlesCardTpl(hits);  
+    
     console.log('renderArticlesCard is working');
-  refs.cardContainer.insertAdjacentHTML('beforeend', markUp);
+    refs.cardContainer.insertAdjacentHTML('beforeend', markUp);
 }
 
 function onFetchError(error) {

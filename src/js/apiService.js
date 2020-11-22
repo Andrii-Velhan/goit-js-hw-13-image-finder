@@ -17,12 +17,12 @@ export default class ImageApiService {
         &page=${this.page}
         &per_page=${this.per_page}
         &key=${MY_KEY}`)
-            .then(r => r.json());
-            // .then(({hits}) => {                
-            //     this.incrementPage();
-            //     console.log('this is hits from API:', hits);
-            //     return hits;
-            // }); 
+            .then(r => r.json())
+            .then((data) => {                
+                this.incrementPage();
+                console.log('this is hits from API:', data.hits);
+                return data;
+            }); 
     }
 
     incrementPage() {

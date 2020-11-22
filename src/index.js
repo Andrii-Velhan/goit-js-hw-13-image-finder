@@ -29,12 +29,13 @@ function onSearch(e) {
         return
     }
     
-    imageApiService.fetchArticles().then(renderArticlesCard).catch(onFetchError);
+    imageApiService.fetchArticles().then(renderArticlesCard)
+        .catch(onFetchError);
     // .then(e => renderArticlesCard(e.hits))
 }
 
-function renderArticlesCard(articles) {
-    const markUp = articlesCardTpl(articles);      
+function renderArticlesCard({hits}) {
+    const markUp = articlesCardTpl({hits});      
     // if (articles.status === 404 && articles.length === 0) {
     //     clearResult();
     //     return error({
@@ -42,9 +43,9 @@ function renderArticlesCard(articles) {
     //         type: 'info',
     //         delay: 2500           
     //     });        
-    // }     
-    refs.cardContainer.insertAdjacentHTML('beforeend', markUp);
+    // }   
     console.log('renderArticlesCard is working');
+  refs.cardContainer.insertAdjacentHTML('beforeend', markUp);
 }
 
 function onFetchError(error) {

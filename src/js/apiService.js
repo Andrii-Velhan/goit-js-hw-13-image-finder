@@ -6,7 +6,7 @@ export default class ImageApiService {
      }
     
     fetchArticles() {
-        console.log(this);
+        console.log('this from API:', this);
 
         const BASE_URL = `https://pixabay.com/api/`;
         const MY_KEY = `19199733-53a137615acbd00e25277177c`;
@@ -18,12 +18,16 @@ export default class ImageApiService {
         &per_page=${this.per_page}
         &key=${MY_KEY}`)
             .then(r => r.json())
-            .then(data => {                
-                this.page += 1;
-                return data.articles;
+            .then(({hits}) => {                
+                this.incremnetPage();
+                console.log('this is hits from API:', hits);
+                return hits;
             }); 
     }
 
+    incremnetPage() {
+        this.page += 1;
+    }
     resetPage() {
         this.page = 1;
     }

@@ -1,6 +1,6 @@
 import './styles.css';
-import countryCardTpl from './templates/image-card.hbs'
-import countryListTpl from './templates/image-card.hbs'
+import articlesCardTpl from './templates/image-card.hbs'
+// import articlesListTpl from './templates/image-card.hbs'
 import ImageApiService from './js/apiService';
 import getRefs from './js/get-refs';
 import '@pnotify/core/dist/BrightTheme.css';
@@ -15,44 +15,36 @@ refs.searchForm.addEventListener('input', debounce(onSearch, 500));
 refs.loadMoreBtn.addEventListener('click', onLoadMore)
 const imageApiService = new ImageApiService();
 
-function onSearch (e) {
+function onSearch(e) {
     e.preventDefault();
 
+    clearResult();
     //imageApiService.query = e.currentTarget.elements.query.value;
     imageApiService.query = e.target.value;
     imageApiService.resetPage();
-    imageApiService.fetchArticles().then(articles => console.log(articles));
+    // imageApiService.fetchArticles().then(articles => console.log(articles));
    
     if (imageApiService.query.length === 0) {
         clearResult();
         return
     }
     
-    console.log(imageApiService.query);
-
-    imageApiService.fetchArticles()
-        .then(renderCountryCard)
-        .catch(onFetchError)        
+    imageApiService.fetchArticles().then(renderArticlesCard).catch(onFetchError);
+    // .then(e => renderArticlesCard(e.hits))
 }
 
-function renderCountryCard(country) {
-    const markUp = countryCardTpl(country);        
-    const listMarkUp = countryListTpl(country);
-
-    if (country.status === 404) {
+function renderArticlesCard(hits) {
+    const markUp = articlesCardTpl(hits);      
+    if (hits.status === 404 && hits.length === 0) {
         clearResult();
         return error({
-            text: 'The country for your request was not found. Please try again',
+            text: 'The articles for your request was not found. Please try again',
             type: 'info',
             delay: 2500           
         });        
-    }
-   
-    if (country.length >=2 && country.length <= 10) {
-        console.log(`country.length: ${country.length}`);
-        return refs.cardContainer.insertAdjacentHTML('beforeend', listMarkUp);
-    }    
-        refs.cardContainer.insertAdjacentHTML('beforeend', markUp);
+    }     
+    refs.cardContainer.insertAdjacentHTML('beforeend', markUp);
+    console.log('renderArticlesCard is work');
 }
 
 function onFetchError(error) {
@@ -62,11 +54,11 @@ function onFetchError(error) {
 }
 
 function clearResult() {   
-    refs.cardContainer.innerHTML = "";
+    refs.cardContainer.innerHTML = '';
 }
 
 function onLoadMore() {
-  imageApiService.fetchArticles().then(articles => console.log(articles));   
+  imageApiService.fetchArticles().then(renderArticlesCard);   
 }
 
 

@@ -1,4 +1,5 @@
 import './styles.css';
+import './js/if';
 import articlesCardTpl from './templates/image-card.hbs'
 // import articlesListTpl from './templates/image-card.hbs'
 import ImageApiService from './js/apiService';

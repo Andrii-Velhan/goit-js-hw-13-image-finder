@@ -1,8 +1,6 @@
 import './styles.css';
-//import './js/if';
-import './js/io';
+// import './js/io';
 import articlesCardTpl from './templates/image-card.hbs'
-// import articlesListTpl from './templates/image-card.hbs'
 import ImageApiService from './js/apiService';
 import getRefs from './js/get-refs';
 import '@pnotify/core/dist/BrightTheme.css';
@@ -14,7 +12,6 @@ const debounce = require('lodash.debounce');
 const refs = getRefs();
 
 refs.searchForm.addEventListener('input', debounce(onSearch, 500));
-refs.loadMoreBtn.addEventListener('click', onLoadMore)
 const imageApiService = new ImageApiService();
 
 function onSearch(e) {
@@ -53,13 +50,12 @@ function onSearch(e) {
     
     imageApiService.fetchArticles().then(renderArticlesCard)
         .catch(onFetchError);
-    // .then(e => renderArticlesCard(e.hits))
+    registerIntersectionObserver();
 }
 
 function renderArticlesCard(hits) {
     const markUp = articlesCardTpl(hits);  
-    
-    console.log('renderArticlesCard is working');
+
     refs.cardContainer.insertAdjacentHTML('beforeend', markUp);
 }
 
@@ -73,8 +69,24 @@ function clearResult() {
     refs.cardContainer.innerHTML = '';
 }
 
-function onLoadMore() {
-  imageApiService.fetchArticles().then(renderArticlesCard);   
+// function onLoadMore() {
+//   imageApiService.fetchArticles().then(renderArticlesCard);   
+// }
+
+function registerIntersectionObserver() {
+    const onEntry = entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && imageApiService.query !== '') {
+            console.log('it is time to load more images');
+            imageApiService.fetchArticles().then(renderArticlesCard)
+                .catch(onFetchError);  
+        }
+    });
+};
+
+const options = {
+    rootMargin: '150px',
+};
+const observer = new IntersectionObserver(onEntry, options);
+observer.observe(refs.sentinel);
 }
-
-

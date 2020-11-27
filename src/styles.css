@@ -26,6 +26,12 @@ body {
   margin-right: 15px;
 }
 
+#sentinel {
+  width: 500px;
+  height: 500px;
+  background-color: tomato;
+}
+
 /* .input-box {
   display: block;
   margin-bottom: 30px;

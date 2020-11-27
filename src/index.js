@@ -50,7 +50,6 @@ function onSearch(e) {
     
     imageApiService.fetchArticles().then(renderArticlesCard)
         .catch(onFetchError);
-    registerIntersectionObserver();
 }
 
 function renderArticlesCard(hits) {
@@ -73,8 +72,7 @@ function clearResult() {
 //   imageApiService.fetchArticles().then(renderArticlesCard);   
 // }
 
-function registerIntersectionObserver() {
-    const onEntry = entries => {
+const onEntry = entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting && imageApiService.query !== '') {
             console.log('it is time to load more images');
@@ -89,4 +87,3 @@ const options = {
 };
 const observer = new IntersectionObserver(onEntry, options);
 observer.observe(refs.sentinel);
-}

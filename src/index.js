@@ -1,12 +1,10 @@
 import './styles.css';
-// import './js/io';
 import articlesCardTpl from './templates/image-card.hbs'
 import ImageApiService from './js/apiService';
 import getRefs from './js/get-refs';
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
 import { error } from '@pnotify/core';
-import * as PNotifyMobile from '@pnotify/mobile';
 
 const debounce = require('lodash.debounce');
 const refs = getRefs();
@@ -18,11 +16,9 @@ function onSearch(e) {
     e.preventDefault();
 
     clearResult();
-    //imageApiService.query = e.currentTarget.elements.query.value;
     imageApiService.query = e.target.value;
     imageApiService.resetPage();
-    // imageApiService.fetchArticles().then(articles => console.log(articles));
-   
+    
     if (imageApiService.query.length === 0) {
         clearResult();
         return
@@ -67,10 +63,6 @@ function onFetchError(error) {
 function clearResult() {   
     refs.cardContainer.innerHTML = '';
 }
-
-// function onLoadMore() {
-//   imageApiService.fetchArticles().then(renderArticlesCard);   
-// }
 
 const onEntry = entries => {
     entries.forEach(entry => {

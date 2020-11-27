@@ -25,28 +25,3 @@ body {
   display: inline-block;
   margin-right: 15px;
 }
-
-/* #sentinel {
-  width: 500px;
-  height: 500px;
-  background-color: tomato;
-} */
-
-/* .input-box {
-  display: block;
-  margin-bottom: 30px;
-}
-
-.country-name {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.js-card-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.country-info {
-  margin-right: 30px;
-} */

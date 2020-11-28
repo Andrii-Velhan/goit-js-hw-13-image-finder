@@ -5,6 +5,8 @@ import getRefs from './js/get-refs';
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
 import { error } from '@pnotify/core';
+import * as basicLightbox from 'basiclightbox';
+import '../node_modules/basiclightbox/dist/basicLightbox.min.css';
 
 const debounce = require('lodash.debounce');
 const refs = getRefs();
@@ -75,7 +77,21 @@ const onEntry = entries => {
 };
 
 const options = {
-    rootMargin: '150px',
+    rootMargin: '250px',
 };
 const observer = new IntersectionObserver(onEntry, options);
 observer.observe(refs.sentinel);
+
+
+refs.cardContainer.addEventListener('click', onClickImg)
+
+function onClickImg(event) {
+    const basicLightbox = require('basiclightbox')
+  if (event.target.nodeName !== 'IMG')
+  {
+    return
+    }
+    const instance = basicLightbox.create(`<img src="${event.target.dataset.sourse}">`)
+    console.log(event.target.dataset.sourse);
+    instance.show()
+}

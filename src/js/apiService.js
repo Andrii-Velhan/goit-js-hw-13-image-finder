@@ -5,7 +5,7 @@ export default class ImageApiService {
     constructor() {
         this.searchQuery = '';
         this.page = 1;
-        this.per_page = 5;
+        this.per_page = 12;
      }
     
     fetchArticles() {

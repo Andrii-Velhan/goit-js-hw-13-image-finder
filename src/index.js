@@ -77,7 +77,7 @@ const onEntry = entries => {
 };
 
 const options = {
-    rootMargin: '250px',
+    rootMargin: '350px',
 };
 const observer = new IntersectionObserver(onEntry, options);
 observer.observe(refs.sentinel);

@@ -26,9 +26,7 @@ function onSearch(e) {
         return
     }
 
-    if (imageApiService.query === ' ' ||
-        imageApiService.query === '  ' ||
-        imageApiService.query === '   ') {        
+    if (imageApiService.query === ' ') {        
                return error({
             text: 'Input something real ! ! !',
             type: 'info',

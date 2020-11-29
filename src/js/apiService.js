@@ -8,7 +8,7 @@ export default class ImageApiService {
         this.per_page = 12;
      }
     
-    fetchArticles() {
+    async fetchArticles() {
         const searchParams = new URLSearchParams({
             image_type: 'photo',
             orientation: 'horizontal',
@@ -22,13 +22,14 @@ export default class ImageApiService {
 
         console.log('this from API:', this);
       
-        return fetch(url)
-            .then(r => r.json())
-            .then((data) => {                
-                this.incrementPage();
-                console.log('this is hits from API:', data.hits);
-                return data;
-            }); 
+        try {
+            const response = await fetch(url);
+            const newData = await response.json()
+                          
+            this.incrementPage();
+            console.log('this is hits from API:', newData.hits);
+            return newData;
+        } catch {}; 
     }
 
     incrementPage() {
